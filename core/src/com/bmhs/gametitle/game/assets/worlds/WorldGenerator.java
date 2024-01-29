@@ -26,20 +26,20 @@ public class WorldGenerator {
 
         worldIntMap[(int)mapSeed.y][(int)mapSeed.x] = 4;
 
-        for(int r = 0; r <worldIntMap.length; r++) {
-            for(int c = 0; c < worldIntMap[r].length; c++) {
-                Vector2 tempVector = new Vector2(c,r);
-                if(tempVector.dst(mapSeed) < 10) {
+        for (int r = 0; r < worldIntMap.length; r++) {
+            for (int c = 0; c < worldIntMap[r].length; c++) {
+                Vector2 tempVector = new Vector2(c, r);
+                if (tempVector.dst(mapSeed) < 10) {
                     worldIntMap[r][c] = 2;
                 }
             }
         }
 
-
         //call methods to build 2D array
         generateWorldTextFile();
         generateWorld();
         water();
+        generateSeed();
 
 
         Gdx.app.error("WorldGenerator", "WorldGenerator(WorldTile[][][])");
@@ -85,15 +85,31 @@ public class WorldGenerator {
         }
     }
 
-    public void  water(){
+    public void water(){
         for(int r = 0; r < worldIntMap.length; r++) {
             for (int c = 0; c < worldIntMap[r].length; c++) {
-                if (c < worldIntMap.length) {
-                    worldIntMap[r][c] = 19;
+                    worldIntMap[r][c] = 20;
+            }
+        }
+    }
+    public void generateSeed(){
+        Vector2 mapSeed = new Vector2(MathUtils.random(worldIntMap[0].length), MathUtils.random(worldIntMap.length));
+        for (int r = 0; r < worldIntMap.length; r++) {
+            for (int c = 0; c < worldIntMap[r].length; c++) {
+                Vector2 tempVector = new Vector2(c, r);
+                if (tempVector.dst(mapSeed) < 10) {
+                    worldIntMap[r][c] = 17;
                 }
             }
         }
     }
+
+    /*
+    public void generateSand(){
+
+    }
+
+     */
     public WorldTile[][] generateWorld() {
         WorldTile[][] worldTileMap = new WorldTile[worldMapRows][worldMapColumns];
         for(int r = 0; r < worldIntMap.length; r++) {
