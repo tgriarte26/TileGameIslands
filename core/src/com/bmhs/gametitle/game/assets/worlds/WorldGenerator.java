@@ -98,7 +98,7 @@ public class WorldGenerator {
             for (int c = 0; c < worldIntMap[r].length; c++) {
                 Vector2 tempVector = new Vector2(c, r);
                 if (tempVector.dst(mapSeed) < 10) {
-                    worldIntMap[r][c] = 17;
+                    worldIntMap[r][c] = 16;
                 }
             }
         }
