@@ -38,9 +38,10 @@ public class WorldGenerator {
         }
         seedColor = 2;
         lightGreen = 17;
+
         //call methods to build 2D array
-        //generateWorldTextFile();
-        //generateWorld();
+        generateWorldTextFile();
+        generateWorld();
         water();
         seedIslands(7);
         searchAndExpand(10, seedColor, lightGreen, 0.25);
@@ -123,26 +124,30 @@ public class WorldGenerator {
         }
     }
 
-    private WorldTile[][] searchAndExpand(int radius, int numToFind, int numToWrite, double probability) {
+    private void searchAndExpand(int radius, int numToFind, int numToWrite, double probability) {
         for (int r = 0; r < worldIntMap.length; r++) {
             for (int c = 0; c < worldIntMap[r].length; c++) {
 
-                //finds seed color
                 if (worldIntMap[r][c] == numToFind) {
-                    for (int subRow = r - radius; subRow <= r + radius; subRow++) {
-                        for (int subColumn = c - radius; subColumn <= c + radius; subColumn++) {
 
-                            //out of bounds check
-                            if (subRow >= 0 && subColumn >= 0 && subRow <= worldIntMap.length - 1 && subColumn <= worldIntMap[0].length - 1 && worldIntMap[subRow][subColumn] != numToFind) {
-                                if (Math.random() > probability) {
-                                    worldIntMap[subRow][subColumn] = numToWrite;
+                    for (int subRow = r - radius; subRow <= r + radius; subRow++) {
+                        for (int subCol = c - radius; subCol <= c + radius; subCol++) {
+
+                            if (subRow >= 0 && subCol >= 0 && subRow <= worldIntMap.length - 1 && subCol <= worldIntMap[0].length - 1 && worldIntMap[subRow][subCol] != numToFind) {
+                                if (Math.random() < probability) {
+                                    worldIntMap[subRow][subCol] = numToWrite;
                                 }
                             }
                         }
                     }
+
+
                 }
+
+
             }
         }
+    }
 
         public WorldTile[][] generateWorld() {
             WorldTile[][] worldTileMap = new WorldTile[worldMapRows][worldMapColumns];
@@ -159,3 +164,4 @@ public class WorldGenerator {
             FileHandle file = Gdx.files.local("assets/worlds/world.txt");
             file.writeString(getWorld3DArrayToString(), false);
         }
+    }
