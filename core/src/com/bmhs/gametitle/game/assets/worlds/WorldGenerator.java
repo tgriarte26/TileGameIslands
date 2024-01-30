@@ -85,7 +85,7 @@ public class WorldGenerator {
         }
     }
 
-    public void  water(){
+    public void water(){
         for(int r = 0; r < worldIntMap.length; r++) {
             for (int c = 0; c < worldIntMap[r].length; c++) {
                 if (c < worldIntMap.length) {
@@ -103,6 +103,8 @@ public class WorldGenerator {
         }
         return worldTileMap;
     }
+
+
     private void generateWorldTextFile() {
         FileHandle file = Gdx.files.local("assets/worlds/world.txt");
         file.writeString(getWorld3DArrayToString(), false);
