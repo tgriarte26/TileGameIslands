@@ -119,6 +119,8 @@ public class WorldGenerator {
         }
         return worldTileMap;
     }
+
+
     private void generateWorldTextFile() {
         FileHandle file = Gdx.files.local("assets/worlds/world.txt");
         file.writeString(getWorld3DArrayToString(), false);
