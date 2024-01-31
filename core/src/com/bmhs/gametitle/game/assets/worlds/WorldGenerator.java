@@ -78,7 +78,7 @@ public class WorldGenerator {
     public void water(){
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
-                worldIntMap[r][c] = 21;
+                worldIntMap[r][c] = 22;
             }
         }
     }
