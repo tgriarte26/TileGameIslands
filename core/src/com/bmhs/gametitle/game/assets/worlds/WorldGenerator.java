@@ -50,12 +50,12 @@ public class WorldGenerator {
         water();
         seedIslands(5);
         //seedMap(4);
-        searchAndExpand(12, seedColor, 78, 0.1);
-        searchAndExpand(10, seedColor, 78, 0.10);
-        searchAndExpand(8, seedColor, 62, 0.20);
-        searchAndExpand(6, seedColor, 41, 0.30);
-        searchAndExpand(4, seedColor, 40, 0.40);
-        searchAndExpand(2, seedColor, 30, 0.50);
+        searchAndExpand(12, seedColor, 78, 0.70);
+        searchAndExpand(10, seedColor, 78, 0.60);
+        searchAndExpand(8, seedColor, 62, 0.50);
+        searchAndExpand(6, seedColor, 41, 0.40);
+        searchAndExpand(4, seedColor, 40, 0.30);
+        searchAndExpand(2, seedColor, 30, 0.20);
 
 
         generateWorldTextFile();
