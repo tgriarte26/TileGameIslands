@@ -47,14 +47,15 @@ public class WorldGenerator {
 
 
         //randomize();
-        //seedIslands(5);
         water();
-        seedMap(4);
-        searchAndExpand(10, seedColor, lightGreen, 0.99);
-        searchAndExpand(8, seedColor, 18, 0.85);
-        searchAndExpand(6, seedColor, 19, 0.55);
-        searchAndExpand(5, seedColor, 20, 0.65);
-        searchAndExpand(4, seedColor, 8, 0.25);
+        seedIslands(5);
+        //seedMap(4);
+        searchAndExpand(12, seedColor, 78, 0.1);
+        searchAndExpand(10, seedColor, 78, 0.10);
+        searchAndExpand(8, seedColor, 62, 0.20);
+        searchAndExpand(6, seedColor, 41, 0.30);
+        searchAndExpand(4, seedColor, 40, 0.40);
+        searchAndExpand(2, seedColor, 30, 0.50);
 
 
         generateWorldTextFile();
@@ -78,12 +79,12 @@ public class WorldGenerator {
     public void water(){
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
-                worldIntMap[r][c] = 22;
+                worldIntMap[r][c] = 20;
             }
         }
     }
 
-
+    /*
     public void seedMap(int num) {
         for(int i = 0; i < num; i++){
         Vector2 mapSeed = new Vector2(MathUtils.random(worldIntMap[0].length), MathUtils.random(worldIntMap.length));
@@ -97,10 +98,9 @@ public class WorldGenerator {
             }
         }
     }
+    */
 
 
-
-    /*
     private void seedIslands(int num) {
         for(int i = 0; i < num; i++) {
             int rSeed = MathUtils.random(worldIntMap.length-1);
@@ -108,7 +108,6 @@ public class WorldGenerator {
             worldIntMap[rSeed][cSeed] = seedColor;
         }
     }
-    */
 
     private void searchAndExpand(int radius, int numToFind, int numToWrite, double probability) {
         for(int r = 0; r < worldIntMap.length; r++) {
