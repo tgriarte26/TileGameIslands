@@ -127,7 +127,7 @@ public class WorldGenerator {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == seedColor) {
                     for (int i = 0; i < expansionRadius; i++) {
-                        int directions = MathUtils.random(5, 10);
+                        int directions = MathUtils.random(10, 15);
                         for (int j = 0; j < directions; j++){
                             int direction = MathUtils.random(0,7);
                         switch (direction) {
