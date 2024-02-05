@@ -120,9 +120,9 @@ public class WorldGenerator {
     // Make islands of different sizes, not just a circle or a square
     // Grow seed in any direction and get different results
     private void randomIslandExpansion(int row, int column) {
-        int expansionRadius = MathUtils.random(20,50);
+        int expansionRadius = 30;
         Set<int[]> visited = new HashSet<>();
-        //expandNeighboringTiles(row, column, seedColor, 6, visited);
+        randomIslandExpansionHelper(row,column, expansionRadius, seedColor,6,visited);
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == seedColor) {
@@ -174,7 +174,19 @@ public class WorldGenerator {
             }
         }
     }
-    /*
+
+
+    private void randomIslandExpansionHelper(int row, int column, int expansionRadius, int seedColor, int islandRepresentation, Set<int[]> visited) {
+        expandNeighboringTiles(row - 1, column, seedColor, islandRepresentation, visited); // Up
+        expandNeighboringTiles(row, column + 1, seedColor, islandRepresentation, visited); // Right
+        expandNeighboringTiles(row+ 1, column, seedColor, islandRepresentation, visited); //Down
+        expandNeighboringTiles(row, column - 1, seedColor, islandRepresentation, visited); //Left
+        expandNeighboringTiles(row - 1, column - 1, seedColor, islandRepresentation, visited);
+        expandNeighboringTiles(row - 1, column + 1, seedColor, islandRepresentation, visited);
+        expandNeighboringTiles(row + 1, column - 1, seedColor, islandRepresentation, visited);
+        expandNeighboringTiles(row + 1, column + 1, seedColor, islandRepresentation, visited);
+    }
+
     private void expandNeighboringTiles(int row, int col, int targetColor, int newColor, Set<int[]> visited) {
         int[] currentTile = {row, col};
 
@@ -186,6 +198,7 @@ public class WorldGenerator {
         worldIntMap[row][col] = newColor; // Set the current tile to the new color
 
         // Recursively expand to neighboring tiles
+        /*
         expandNeighboringTiles(row - 1, col, targetColor, newColor, visited); // Up
         expandNeighboringTiles(row, col + 1, targetColor, newColor, visited); // Right
         expandNeighboringTiles(row + 1, col, targetColor, newColor, visited); // Down
@@ -194,24 +207,13 @@ public class WorldGenerator {
         expandNeighboringTiles(row - 1, col + 1, targetColor, newColor, visited); // Up-Right
         expandNeighboringTiles(row + 1, col - 1, targetColor, newColor, visited); // Down-Left
         expandNeighboringTiles(row + 1, col + 1, targetColor, newColor, visited); // Down-Right
-    }
+        */
 
-     */
+    }
 
     private void expandIsland(int row, int column) {
         if (row >= 0 && row < worldIntMap.length && column >= 0 && column < worldIntMap[row].length && worldIntMap[row][column] != seedColor) {
             worldIntMap[row][column] = 6; // Assuming 6 represents part of the island, you can adjust this value
-            if (row < 0 || row >= worldIntMap.length || column < 0 || column >= worldIntMap[row].length || worldIntMap[row][column] == seedColor) {
-                return;  // Terminate recursion if out of bounds or already part of the island
-            }
-            expandIsland(row - 1, column);
-            expandIsland(row, column + 1);
-            expandIsland(row + 1, column);
-            expandIsland(row, column - 1);
-            expandIsland(row - 1, column - 1);
-            expandIsland(row - 1, column + 1);
-            expandIsland(row + 1, column - 1);
-            expandIsland(row + 1, column + 1);
         }
     }
 
