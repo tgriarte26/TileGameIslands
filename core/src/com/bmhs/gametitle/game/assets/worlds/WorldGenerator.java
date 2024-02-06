@@ -197,17 +197,6 @@ public class WorldGenerator {
         visited.add(currentTile);
         worldIntMap[row][col] = newColor; // Set the current tile to the new color
 
-        // Recursively expand to neighboring tiles
-        /*
-        expandNeighboringTiles(row - 1, col, targetColor, newColor, visited); // Up
-        expandNeighboringTiles(row, col + 1, targetColor, newColor, visited); // Right
-        expandNeighboringTiles(row + 1, col, targetColor, newColor, visited); // Down
-        expandNeighboringTiles(row, col - 1, targetColor, newColor, visited); // Left
-        expandNeighboringTiles(row - 1, col - 1, targetColor, newColor, visited); // Up-Left
-        expandNeighboringTiles(row - 1, col + 1, targetColor, newColor, visited); // Up-Right
-        expandNeighboringTiles(row + 1, col - 1, targetColor, newColor, visited); // Down-Left
-        expandNeighboringTiles(row + 1, col + 1, targetColor, newColor, visited); // Down-Right
-        */
 
     }
 
