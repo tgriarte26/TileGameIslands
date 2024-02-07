@@ -113,10 +113,10 @@ public class WorldGenerator {
             int cSeed = random(worldIntMap[0].length-1);
             worldIntMap[rSeed][cSeed] = seedColor;
             randomIslandExpansion(rSeed, cSeed);
-            expandIslandAroundSeed(rSeed, cSeed);
+            //expandIslandAroundSeed(rSeed, cSeed);
         }
     }
-
+    /*
     private void expandIslandAroundSeed(int seedRow, int seedColumn) {
         int islandColor = seedColor; // Color representing the island
 
@@ -145,6 +145,8 @@ public class WorldGenerator {
         floodFill(row + 1, col - 1, targetColor);
         floodFill(row + 1, col + 1, targetColor);
     }
+
+     */
 
 
 
