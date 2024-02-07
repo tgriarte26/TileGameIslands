@@ -113,8 +113,40 @@ public class WorldGenerator {
             int cSeed = random(worldIntMap[0].length-1);
             worldIntMap[rSeed][cSeed] = seedColor;
             randomIslandExpansion(rSeed, cSeed);
+            expandIslandAroundSeed(rSeed, cSeed);
         }
     }
+
+    private void expandIslandAroundSeed(int seedRow, int seedColumn) {
+        int islandColor = seedColor; // Color representing the island
+
+        // Set the seed tile as part of the island
+        worldIntMap[seedRow][seedColumn] = islandColor;
+
+        // Start flood-fill algorithm to fill the island
+        floodFill(seedRow, seedColumn, islandColor);
+    }
+
+    private void floodFill(int row, int col, int targetColor) {
+        if (row < 0 || row >= worldIntMap.length || col < 0 || col >= worldIntMap[row].length || worldIntMap[row][col] != 0) {
+            return; // Exit if out of bounds or not an empty space
+        }
+
+        // Set the current tile to the island color
+        worldIntMap[row][col] = targetColor;
+
+        // Recursively fill neighboring tiles
+        floodFill(row - 1, col, targetColor); // Up
+        floodFill(row + 1, col, targetColor); // Down
+        floodFill(row, col - 1, targetColor); // Left
+        floodFill(row, col + 1, targetColor); // Right
+        floodFill(row - 1, col - 1, targetColor);
+        floodFill(row - 1, col + 1, targetColor);
+        floodFill(row + 1, col - 1, targetColor);
+        floodFill(row + 1, col + 1, targetColor);
+    }
+
+
 
     //Goal:
     // Make islands of different sizes, not just a circle or a square
@@ -122,7 +154,6 @@ public class WorldGenerator {
     private void randomIslandExpansion(int row, int column) {
         int expansionRadius = 30;
         Set<int[]> visited = new HashSet<>();
-        randomIslandExpansionHelper(row,column, expansionRadius, seedColor,6,visited);
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == seedColor) {
@@ -130,43 +161,43 @@ public class WorldGenerator {
                         int directions = MathUtils.random(10, 15);
                         for (int j = 0; j < directions; j++){
                             int direction = MathUtils.random(0,7);
-                        switch (direction) {
-                            case 0:
-                                expandIsland(row - 1, column);
-                                row--;
-                                break;
-                            case 1:
-                                expandIsland(row, column + 1);
-                                column++;
-                                break;
-                            case 2:
-                                expandIsland(row + 1, column);
-                                row++;
-                                break;
-                            case 3:
-                                expandIsland(row, column - 1);
-                                column--;
-                                break;
-                            case 4:
-                                expandIsland(row - 1, column - 1);
-                                row--;
-                                column--;
-                                break;
-                            case 5:
-                                expandIsland(row - 1, column + 1);
-                                row--;
-                                column++;
-                                break;
-                            case 6:
-                                expandIsland(row + 1, column - 1);
-                                row++;
-                                column--;
-                                break;
-                            case 7:
-                                expandIsland(row + 1, column + 1);
-                                row++;
-                                column++;
-                                break;
+                            switch (direction) {
+                                case 0:
+                                    expandIsland(row - 1, column);
+                                    row--;
+                                    break;
+                                case 1:
+                                    expandIsland(row, column + 1);
+                                    column++;
+                                    break;
+                                case 2:
+                                    expandIsland(row + 1, column);
+                                    row++;
+                                    break;
+                                case 3:
+                                    expandIsland(row, column - 1);
+                                    column--;
+                                    break;
+                                case 4:
+                                    expandIsland(row - 1, column - 1);
+                                    row--;
+                                    column--;
+                                    break;
+                                case 5:
+                                    expandIsland(row - 1, column + 1);
+                                    row--;
+                                    column++;
+                                    break;
+                                case 6:
+                                    expandIsland(row + 1, column - 1);
+                                    row++;
+                                    column--;
+                                    break;
+                                case 7:
+                                    expandIsland(row + 1, column + 1);
+                                    row++;
+                                    column++;
+                                    break;
                             }
                         }
                     }
