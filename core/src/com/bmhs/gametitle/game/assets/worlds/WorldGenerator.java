@@ -23,7 +23,7 @@ public class WorldGenerator {
 
     private int[][] worldIntMap;
 
-    private int seedColor,lightGreen;
+    private int seedColor,lightGreen, red;
 
 
 
@@ -38,6 +38,7 @@ public class WorldGenerator {
 
         seedColor = 2;
         lightGreen = 18;
+        red = 15;
 
         Vector2 mapSeed = new Vector2(random(worldIntMap[0].length), random(worldIntMap.length));
         System.out.println(mapSeed.y + "" + mapSeed.x);
@@ -58,6 +59,7 @@ public class WorldGenerator {
         //seedMap(4);
         water();
         seedIslands((int)(Math.random() * 3 + 3));
+
         /*
         searchAndExpand(MathUtils.random(8,9), seedColor, 39, 0.10);
         searchAndExpand(MathUtils.random(6,7), seedColor, 31, 0.20);
@@ -113,90 +115,64 @@ public class WorldGenerator {
             int cSeed = random(worldIntMap[0].length-1);
             worldIntMap[rSeed][cSeed] = seedColor;
             randomIslandExpansion(rSeed, cSeed);
-            //expandIslandAroundSeed(rSeed, cSeed);
         }
     }
-    /*
-    private void expandIslandAroundSeed(int seedRow, int seedColumn) {
-        int islandColor = seedColor; // Color representing the island
-
-        // Set the seed tile as part of the island
-        worldIntMap[seedRow][seedColumn] = islandColor;
-
-        // Start flood-fill algorithm to fill the island
-        floodFill(seedRow, seedColumn, islandColor);
-    }
-
-    private void floodFill(int row, int col, int targetColor) {
-        if (row < 0 || row >= worldIntMap.length || col < 0 || col >= worldIntMap[row].length || worldIntMap[row][col] != 0) {
-            return; // Exit if out of bounds or not an empty space
-        }
-
-        // Set the current tile to the island color
-        worldIntMap[row][col] = targetColor;
-
-        // Recursively fill neighboring tiles
-        floodFill(row - 1, col, targetColor); // Up
-        floodFill(row + 1, col, targetColor); // Down
-        floodFill(row, col - 1, targetColor); // Left
-        floodFill(row, col + 1, targetColor); // Right
-        floodFill(row - 1, col - 1, targetColor);
-        floodFill(row - 1, col + 1, targetColor);
-        floodFill(row + 1, col - 1, targetColor);
-        floodFill(row + 1, col + 1, targetColor);
-    }
-
-     */
-
-
 
     //Goal:
     // Make islands of different sizes, not just a circle or a square
     // Grow seed in any direction and get different results
     private void randomIslandExpansion(int row, int column) {
-        int expansionRadius = 30;
+        int expansionRadius = 15;
         Set<int[]> visited = new HashSet<>();
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == seedColor) {
                     for (int i = 0; i < expansionRadius; i++) {
-                        int directions = MathUtils.random(10, 15);
+                        int directions = MathUtils.random(5,7);
                         for (int j = 0; j < directions; j++){
                             int direction = MathUtils.random(0,7);
                             switch (direction) {
                                 case 0:
-                                    expandIsland(row - 1, column);
+                                    expandIsland(row - 2, column);
+                                    surroundTile(row - 2, column);
                                     row--;
                                     break;
                                 case 1:
-                                    expandIsland(row, column + 1);
+                                    expandIsland(row, column + 2);
+                                    surroundTile(row, column + 2);
                                     column++;
                                     break;
                                 case 2:
-                                    expandIsland(row + 1, column);
+                                    expandIsland(row + 2, column);
+                                    surroundTile(row + 2, column);
                                     row++;
                                     break;
                                 case 3:
-                                    expandIsland(row, column - 1);
+                                    expandIsland(row, column - 2);
+                                    surroundTile(row, column - 2);
                                     column--;
                                     break;
                                 case 4:
-                                    expandIsland(row - 1, column - 1);
+                                    expandIsland(row - 2, column -2);
+                                    surroundTile(row - 2, column - 2);
                                     row--;
                                     column--;
                                     break;
                                 case 5:
-                                    expandIsland(row - 1, column + 1);
+                                    expandIsland(row - 2, column + 2);
+                                    surroundTile(row - 2, column + 2);
                                     row--;
                                     column++;
                                     break;
                                 case 6:
-                                    expandIsland(row + 1, column - 1);
+                                    expandIsland(row + 2, column - 2);
+                                    surroundTile(row + 2, column - 2);
                                     row++;
                                     column--;
                                     break;
                                 case 7:
-                                    expandIsland(row + 1, column + 1);
+                                    expandIsland(row + 2, column + 2);
+                                    surroundTile(row + 2, column + 2);
                                     row++;
                                     column++;
                                     break;
@@ -208,30 +184,17 @@ public class WorldGenerator {
         }
     }
 
-
-    private void randomIslandExpansionHelper(int row, int column, int expansionRadius, int seedColor, int islandRepresentation, Set<int[]> visited) {
-        expandNeighboringTiles(row - 1, column, seedColor, islandRepresentation, visited); // Up
-        expandNeighboringTiles(row, column + 1, seedColor, islandRepresentation, visited); // Right
-        expandNeighboringTiles(row+ 1, column, seedColor, islandRepresentation, visited); //Down
-        expandNeighboringTiles(row, column - 1, seedColor, islandRepresentation, visited); //Left
-        expandNeighboringTiles(row - 1, column - 1, seedColor, islandRepresentation, visited);
-        expandNeighboringTiles(row - 1, column + 1, seedColor, islandRepresentation, visited);
-        expandNeighboringTiles(row + 1, column - 1, seedColor, islandRepresentation, visited);
-        expandNeighboringTiles(row + 1, column + 1, seedColor, islandRepresentation, visited);
-    }
-
-    private void expandNeighboringTiles(int row, int col, int targetColor, int newColor, Set<int[]> visited) {
-        int[] currentTile = {row, col};
-
-        if (row < 0 || row >= worldIntMap.length || col < 0 || col >= worldIntMap[row].length || visited.contains(currentTile) || worldIntMap[row][col] != targetColor) {
-            return; // Exit if out of bounds, already visited, or not the target color
+    private void surroundTile(int centerRow, int centerCol) {
+        for (int r = centerRow - 1; r <= centerRow + 1; r++) {
+            for (int c = centerCol - 1; c <= centerCol + 1; c++) {
+                if (r >= 0 && r < worldIntMap.length && c >= 0 && c < worldIntMap[r].length) {
+                    // Assuming the same color represents the island
+                    worldIntMap[r][c] = 6;
+                }
+            }
         }
-
-        visited.add(currentTile);
-        worldIntMap[row][col] = newColor; // Set the current tile to the new color
-
-
     }
+
 
     private void expandIsland(int row, int column) {
         if (row >= 0 && row < worldIntMap.length && column >= 0 && column < worldIntMap[row].length && worldIntMap[row][column] != seedColor) {
