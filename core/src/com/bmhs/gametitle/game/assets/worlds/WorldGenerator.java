@@ -128,56 +128,57 @@ public class WorldGenerator {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == seedColor) {
                     for (int i = 0; i < expansionRadius; i++) {
-                        int directions = MathUtils.random(5,7);
+                        int directions = MathUtils.random(7,8);
                         for (int j = 0; j < directions; j++){
                             int direction = MathUtils.random(0,7);
                             switch (direction) {
                                 case 0:
-                                    expandIsland(row - 2, column);
-                                    surroundTile(row - 2, column);
                                     row--;
+                                    expandIsland(row - 1, column);
+                                    surroundTile(row - 1, column);
                                     break;
                                 case 1:
-                                    expandIsland(row, column + 2);
-                                    surroundTile(row, column + 2);
                                     column++;
+                                    expandIsland(row, column + 1);
+                                    surroundTile(row, column + 1);
                                     break;
                                 case 2:
-                                    expandIsland(row + 2, column);
-                                    surroundTile(row + 2, column);
                                     row++;
+                                    expandIsland(row + 1, column);
+                                    surroundTile(row + 1, column);
                                     break;
                                 case 3:
-                                    expandIsland(row, column - 2);
-                                    surroundTile(row, column - 2);
                                     column--;
+                                    expandIsland(row, column - 1);
+                                    surroundTile(row, column - 1);
                                     break;
                                 case 4:
-                                    expandIsland(row - 2, column -2);
-                                    surroundTile(row - 2, column - 2);
                                     row--;
                                     column--;
+                                    expandIsland(row - 1, column - 1);
+                                    surroundTile(row - 1, column - 1);
                                     break;
                                 case 5:
-                                    expandIsland(row - 2, column + 2);
-                                    surroundTile(row - 2, column + 2);
                                     row--;
                                     column++;
+                                    expandIsland(row - 1, column + 1);
+                                    surroundTile(row - 1, column + 1);
                                     break;
                                 case 6:
-                                    expandIsland(row + 2, column - 2);
-                                    surroundTile(row + 2, column - 2);
                                     row++;
                                     column--;
+                                    expandIsland(row + 1, column - 1);
+                                    surroundTile(row + 1, column - 1);
                                     break;
                                 case 7:
-                                    expandIsland(row + 2, column + 2);
-                                    surroundTile(row + 2, column + 2);
                                     row++;
                                     column++;
+                                    expandIsland(row + 1, column + 1);
+                                    surroundTile(row + 1, column + 1);
                                     break;
                             }
                         }
+                        surroundTile(r,c);
                     }
                 }
             }
@@ -189,12 +190,13 @@ public class WorldGenerator {
             for (int c = centerCol - 1; c <= centerCol + 1; c++) {
                 if (r >= 0 && r < worldIntMap.length && c >= 0 && c < worldIntMap[r].length) {
                     // Assuming the same color represents the island
-                    worldIntMap[r][c] = 6;
+                    if(worldIntMap[r][c] != seedColor && worldIntMap[r][c] != 6){
+                        worldIntMap[r][c] = 7;
+                    }
                 }
             }
         }
     }
-
 
     private void expandIsland(int row, int column) {
         if (row >= 0 && row < worldIntMap.length && column >= 0 && column < worldIntMap[row].length && worldIntMap[row][column] != seedColor) {
