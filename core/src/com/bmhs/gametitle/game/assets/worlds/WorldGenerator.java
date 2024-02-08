@@ -122,63 +122,61 @@ public class WorldGenerator {
     // Make islands of different sizes, not just a circle or a square
     // Grow seed in any direction and get different results
     private void randomIslandExpansion(int row, int column) {
-        int expansionRadius = 15;
-        Set<int[]> visited = new HashSet<>();
+        int expansionRadius = 30;
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == seedColor) {
                     for (int i = 0; i < expansionRadius; i++) {
-                        int directions = MathUtils.random(7,8);
+                        int directions = 7;
                         for (int j = 0; j < directions; j++){
                             int direction = MathUtils.random(0,7);
                             switch (direction) {
                                 case 0:
                                     row--;
+                                    //surroundTile(row - 1, column);
                                     expandIsland(row - 1, column);
-                                    surroundTile(row - 1, column);
                                     break;
                                 case 1:
                                     column++;
+                                    //surroundTile(row, column + 1);
                                     expandIsland(row, column + 1);
-                                    surroundTile(row, column + 1);
                                     break;
                                 case 2:
                                     row++;
+                                    //surroundTile(row + 1, column);
                                     expandIsland(row + 1, column);
-                                    surroundTile(row + 1, column);
                                     break;
                                 case 3:
                                     column--;
+                                    //surroundTile(row, column - 1);
                                     expandIsland(row, column - 1);
-                                    surroundTile(row, column - 1);
                                     break;
                                 case 4:
                                     row--;
                                     column--;
+                                    //surroundTile(row - 1, column - 1);
                                     expandIsland(row - 1, column - 1);
-                                    surroundTile(row - 1, column - 1);
                                     break;
                                 case 5:
                                     row--;
                                     column++;
+                                    //surroundTile(row - 1, column + 1);
                                     expandIsland(row - 1, column + 1);
-                                    surroundTile(row - 1, column + 1);
                                     break;
                                 case 6:
                                     row++;
                                     column--;
+                                    //surroundTile(row + 1, column - 1);
                                     expandIsland(row + 1, column - 1);
-                                    surroundTile(row + 1, column - 1);
                                     break;
                                 case 7:
                                     row++;
                                     column++;
+                                    //surroundTile(row + 1, column + 1);
                                     expandIsland(row + 1, column + 1);
-                                    surroundTile(row + 1, column + 1);
                                     break;
                             }
                         }
-                        surroundTile(r,c);
                     }
                 }
             }
@@ -190,7 +188,7 @@ public class WorldGenerator {
             for (int c = centerCol - 1; c <= centerCol + 1; c++) {
                 if (r >= 0 && r < worldIntMap.length && c >= 0 && c < worldIntMap[r].length) {
                     // Assuming the same color represents the island
-                    if(worldIntMap[r][c] != seedColor && worldIntMap[r][c] != 6){
+                    if(worldIntMap[r][c] != seedColor && worldIntMap[r][c] != 78){
                         worldIntMap[r][c] = 7;
                     }
                 }
@@ -200,7 +198,7 @@ public class WorldGenerator {
 
     private void expandIsland(int row, int column) {
         if (row >= 0 && row < worldIntMap.length && column >= 0 && column < worldIntMap[row].length && worldIntMap[row][column] != seedColor) {
-            worldIntMap[row][column] = 6; // Assuming 6 represents part of the island, you can adjust this value
+            worldIntMap[row][column] = 78; // Assuming 6 represents part of the island, you can adjust this value
         }
     }
 
