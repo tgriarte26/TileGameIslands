@@ -121,58 +121,69 @@ public class WorldGenerator {
     //Goal:
     // Make islands of different sizes, not just a circle or a square
     // Grow seed in any direction and get different results
+
     private void randomIslandExpansion(int row, int column) {
-        int expansionRadius = 30;
+        int expansionRadius = 15;
+
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == seedColor) {
                     for (int i = 0; i < expansionRadius; i++) {
                         int directions = 7;
                         for (int j = 0; j < directions; j++){
-                            int direction = MathUtils.random(0,7);
+                            int direction = MathUtils.random(0,8);
                             switch (direction) {
                                 case 0:
                                     row--;
-                                    //surroundTile(row - 1, column);
+                                    surroundTileWithGrass(row - 1, column);
+                                    surroundTileWithSand(row - 1, column);
                                     expandIsland(row - 1, column);
                                     break;
                                 case 1:
                                     column++;
-                                    //surroundTile(row, column + 1);
+                                    surroundTileWithGrass(row, column + 1);
+                                    surroundTileWithSand(row, column + 1);
                                     expandIsland(row, column + 1);
                                     break;
                                 case 2:
                                     row++;
-                                    //surroundTile(row + 1, column);
+                                    surroundTileWithGrass(row + 1, column);
+                                    surroundTileWithSand(row + 1, column);
                                     expandIsland(row + 1, column);
                                     break;
                                 case 3:
                                     column--;
-                                    //surroundTile(row, column - 1);
+                                    surroundTileWithGrass(row, column - 1);
+                                    surroundTileWithSand(row, column - 1);
                                     expandIsland(row, column - 1);
                                     break;
+
                                 case 4:
                                     row--;
                                     column--;
-                                    //surroundTile(row - 1, column - 1);
+                                    surroundTileWithGrass(row - 1, column - 1);
+                                    surroundTileWithSand(row - 1, column - 1);
                                     expandIsland(row - 1, column - 1);
                                     break;
                                 case 5:
                                     row--;
                                     column++;
-                                    //surroundTile(row - 1, column + 1);
+                                    surroundTileWithGrass(row - 1, column + 1);
+                                    surroundTileWithSand(row - 1, column + 1);
                                     expandIsland(row - 1, column + 1);
                                     break;
                                 case 6:
                                     row++;
                                     column--;
-                                    //surroundTile(row + 1, column - 1);
+                                    surroundTileWithGrass(row + 1, column - 1);
+                                    surroundTileWithSand(row + 1, column - 1);
                                     expandIsland(row + 1, column - 1);
                                     break;
                                 case 7:
                                     row++;
                                     column++;
-                                    //surroundTile(row + 1, column + 1);
+                                    surroundTileWithGrass(row + 1, column + 1);
+                                    surroundTileWithSand(row + 1, column + 1);
                                     expandIsland(row + 1, column + 1);
                                     break;
                             }
@@ -183,18 +194,34 @@ public class WorldGenerator {
         }
     }
 
-    private void surroundTile(int centerRow, int centerCol) {
+
+    private void surroundTileWithGrass(int centerRow, int centerCol) {
         for (int r = centerRow - 1; r <= centerRow + 1; r++) {
             for (int c = centerCol - 1; c <= centerCol + 1; c++) {
                 if (r >= 0 && r < worldIntMap.length && c >= 0 && c < worldIntMap[r].length) {
                     // Assuming the same color represents the island
-                    if(worldIntMap[r][c] != seedColor && worldIntMap[r][c] != 78){
-                        worldIntMap[r][c] = 7;
+                    if(worldIntMap[r][c] != seedColor){
+                        worldIntMap[r][c] = 78;
                     }
                 }
             }
         }
     }
+
+    private void surroundTileWithSand(int centerRow, int centerCol) {
+        for (int r = centerRow - 1; r <= centerRow + 1; r++) {
+            for (int c = centerCol - 1; c <= centerCol + 1; c++) {
+                if (r >= 0 && r < worldIntMap.length && c >= 0 && c < worldIntMap[r].length) {
+                    // Set sand around the island (assuming 20 represents sand)
+                    if (worldIntMap[r][c] != seedColor && worldIntMap[r][c] != 78) {
+                        worldIntMap[r][c] = 39; // Sand
+                    }
+                }
+            }
+        }
+    }
+
+
 
     private void expandIsland(int row, int column) {
         if (row >= 0 && row < worldIntMap.length && column >= 0 && column < worldIntMap[row].length && worldIntMap[row][column] != seedColor) {
